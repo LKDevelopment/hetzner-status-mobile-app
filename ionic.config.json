@@ -1,0 +1,8 @@
+{
+  "name": "hetzner-status-app",
+  "app_id": "ede6434a",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
