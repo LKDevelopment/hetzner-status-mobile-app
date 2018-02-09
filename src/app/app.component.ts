@@ -16,7 +16,7 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      oneSignal.startInit('e8714cee-7480-45da-bad0-19ba3c3e89c4', '1069973161280');
+      oneSignal.startInit('8a532b21-b859-4af2-ab12-b6a96ec685a6', '893639204227');
 
       oneSignal.endInit();
       statusBar.styleDefault();
