@@ -9,8 +9,9 @@ import {OneSignal} from "@ionic-native/onesignal";
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class HetznerStatusApp {
   rootPage: any = HomePage;
+  public booted: boolean = false;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, oneSignal: OneSignal) {
     platform.ready().then(() => {
@@ -21,6 +22,7 @@ export class MyApp {
       oneSignal.endInit();
       statusBar.styleDefault();
       splashScreen.hide();
+      this.booted = true;
     });
   }
 }
