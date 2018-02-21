@@ -1,8 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {DebugElement} from '@angular/core';
 import {HomePage} from './home';
-import {IonicModule, NavController, Platform} from 'ionic-angular/index';
+import {IonicModule, LoadingController, NavController, Platform} from 'ionic-angular/index';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {PlatformMock, SplashScreenMock, StatusBarMock} from '../../../test-config/mocks-ionic';
@@ -11,8 +10,11 @@ import {HetznerStatusProviderMock} from "../../providers/hetzner-status/hetzner-
 import {HttpClientModule} from "@angular/common/http";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {InAppBrowserMock} from "@ionic-native-mocks/in-app-browser";
+import {LoadingControllerMock} from "ionic-mocks";
+
 describe('Home Page', () => {
   let de: DebugElement;
+  let de2: DebugElement;
   let comp: HomePage;
   let fixture: ComponentFixture<HomePage>;
 
@@ -29,16 +31,24 @@ describe('Home Page', () => {
         {provide: StatusBar, useClass: StatusBarMock},
         {provide: SplashScreen, useClass: SplashScreenMock},
         {provide: HetznerStatusProvider, useClass: HetznerStatusProviderMock},
-        {provide:InAppBrowser, useClass:InAppBrowserMock}
+        {provide: InAppBrowser, useClass: InAppBrowserMock},
+        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance() }
       ]
-    });
+    }).compileComponents();  // compile template and css;
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomePage);
     comp = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('h3'));
   });
 
   it('should create component', () => expect(comp).toBeDefined());
+  it('should has two messages from hetzner', fakeAsync(() => {
+    comp.load();
+    tick();
+    fixture.detectChanges();
+    expect(comp.messages.length).toBe(2);
+    expect(comp.messages[0].id).toBe(252);
+    expect(comp.messages[1].id).toBe(253);
+  }));
 });

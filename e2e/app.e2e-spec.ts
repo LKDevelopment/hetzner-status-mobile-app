@@ -1,4 +1,4 @@
-import { Page } from './app.po';
+import {Page} from './app.po';
 
 describe('App', () => {
   let page: Page;
@@ -12,10 +12,10 @@ describe('App', () => {
       page.navigateTo('/');
     });
 
-    it('should have a title saying Page One', () => {
+    it('should have a title saying Hetzner Status App', () => {
       page.getTitle().then(title => {
-        expect(title).toEqual('Page One');
+        expect(title).toEqual('Hetzner Status App');
       });
     });
-  })
+  });
 });

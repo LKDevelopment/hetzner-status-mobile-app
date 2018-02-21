@@ -9,5 +9,6 @@ export class Page {
   getTitle() {
     return browser.getTitle();
   }
-  
+
+
 }
