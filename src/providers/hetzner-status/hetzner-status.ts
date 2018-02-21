@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 /*
   Generated class for the HetznerStatusProvider provider.
@@ -14,16 +14,22 @@ export class HetznerStatusProvider {
    *
    * @type {string}
    */
-  public apiUrl: string = 'https://hetzner-status.lkdev.co/api' ;
+  public apiUrl: string = 'https://hetzner-status.lkdev.co/api/v2';
+
   constructor(public http: HttpClient) {
   }
+
   /**
    * Get all Status from the LK-Network Hetzner Status API
    * @see https://hetzner-status.lkdev.co/api/hetzner-status
    * @returns {Promise<any>}
    */
   getStatus() {
-    return this._get('hetzner-status')
+    return this._get('messages')
+  }
+
+  getTags() {
+    return this._get('tags')
   }
 
   /**

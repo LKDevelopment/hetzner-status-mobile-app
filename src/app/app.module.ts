@@ -12,6 +12,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {IonicStorageModule} from "@ionic/storage";
 import {HetznerStatusSettingPage} from "../pages/hetzner-status-setting/hetzner-status-setting";
 import {HttpClientModule} from "@angular/common/http";
+import {PipesModule} from "../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     IonicModule.forRoot(HetznerStatusApp),
     IonicStorageModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {OneSignal} from "@ionic-native/onesignal";
 import {Storage} from "@ionic/storage";
+import {HetznerStatusProvider} from "../../providers/hetzner-status/hetzner-status";
 
 /**
  * Generated class for the HetznerStatusSettingPage page.
@@ -16,56 +17,30 @@ import {Storage} from "@ionic/storage";
 })
 export class HetznerStatusSettingPage {
 
-  public categories = [
-    {
-      "key": "Allgemein",
-      "value": false,
-    },
-    {
-      "key": "Basis Infrastruktur",
-      "value": false,
-    },
-    {
-      "key": "Erweiterte Infrastruktur",
-      "value": false,
-    },
-    {
-      "key": "Netzwerk",
-      "value": false,
-    },
-    {
-      "key": "Webhosting und Managed Server",
-      "value": false,
-    },
-    {
-      "key": "Domain Registration Robot",
-      "value": false,
-    },
-    {
-      "key": "vServer",
-      "value": false,
-    },
-    {
-      "key": "Cloud",
-      "value": false,
-    }
-  ];
+  public tags: any = [];
   public _send: boolean;
+  public save: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, protected oneSignal: OneSignal, protected storage: Storage, protected platform: Platform) {
-    this.storage.get('hetzner_status_settings').then((data) => {
-      if (data != undefined && data != null) {
-        this.categories = data;
+  constructor(public navCtrl: NavController, public navParams: NavParams, protected oneSignal: OneSignal, protected storage: Storage, protected platform: Platform, protected statusProvider: HetznerStatusProvider) {
+    this.getTags();
+    this.storage.get('hetzner_status_settings_v2').then((data) => {
+      if(data != undefined && data != null){
+        this.save = data;
       }
     })
   }
 
-  save() {
+  getTags() {
+    this.statusProvider.getTags().then((data) => {
+      this.tags = Object.keys(data).map(key => data[key])
+    });
+  }
+  saveTags(){
     this._send = false;
     let prompt = false;
-    this.categories.forEach((value, key) => {
-      this.oneSignal.sendTag(value.key, "" + value.value);
-      if (value.value == true) {
+    this.save.forEach((value, key) => {
+      this.oneSignal.sendTag(key, "" + value);
+      if (value == true) {
         prompt = true;
       }
     });
@@ -73,6 +48,9 @@ export class HetznerStatusSettingPage {
     if (prompt && this.platform.is('ios')) {
       this.oneSignal.promptForPushNotificationsWithUserResponse();
     }
-    this.storage.set('hetzner_status_settings', this.categories);
+    this.storage.set('hetzner_status_settings_v2', this.save);
   }
+  /*save() {
+
+  } */
 }

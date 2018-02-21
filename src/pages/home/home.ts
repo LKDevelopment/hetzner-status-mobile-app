@@ -11,7 +11,6 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 export class HomePage {
 
   public messages: any = [];
-
   constructor(public navCtrl: NavController, protected statusApi: HetznerStatusProvider, protected browser: InAppBrowser, public loadingCtrl: LoadingController) {
     this.load();
   }
